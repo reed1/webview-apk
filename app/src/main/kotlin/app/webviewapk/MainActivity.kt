@@ -10,6 +10,7 @@ import android.webkit.WebSettings
 
 class MainActivity : Activity() {
     private lateinit var webView: WebView
+    private var lastPauseTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,18 @@ class MainActivity : Activity() {
         }
 
         webView.loadUrl(BuildConfig.APP_URL)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        lastPauseTime = System.currentTimeMillis()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (lastPauseTime > 0 && System.currentTimeMillis() - lastPauseTime > BuildConfig.REFRESH_TIMEOUT_MS) {
+            webView.evaluateJavascript("if (typeof window.__webviewRefresh === 'function') window.__webviewRefresh()", null)
+        }
     }
 
     @Deprecated("Use OnBackPressedCallback", ReplaceWith("onBackPressedDispatcher"))

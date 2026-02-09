@@ -56,6 +56,7 @@ def build(config_path: str) -> None:
     try:
         config = yaml.safe_load(Path(config_path).read_text())
         config.setdefault("theme_color", "#0a0a0a")
+        config.setdefault("refresh_timeout_ms", 300000)
 
         render_templates(config)
         generate_icons(config["icon"])
