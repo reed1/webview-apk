@@ -1,6 +1,28 @@
 # webview-apk
 
-Generates Android APKs that wrap a URL in a WebView.
+Generates a lightweight Android APK that wraps a URL in a WebView.
+
+## Usage
+
+```
+webview-apk build <config.yaml>
+```
+
+The built APK is written to `app/build/outputs/apk/debug/app-debug.apk`.
+
+## Config
+
+See `examples/gitmob.yaml` for a full example.
+
+| Field | Required | Default | Description |
+|---|---|---|---|
+| `name` | yes | | App name shown in the launcher |
+| `id` | yes | | Android application ID (e.g. `com.example.app`) |
+| `url` | yes | | URL to load in the WebView |
+| `host` | yes | | Hostname used to keep navigation in-app; external links open in the browser |
+| `icon` | yes | | Path to a PNG icon (resized to all mipmap densities) |
+| `theme_color` | no | `#0a0a0a` | Status bar / theme color |
+| `refresh_timeout_ms` | no | `300000` | Milliseconds the app must be backgrounded before triggering a smart refresh on resume (see below) |
 
 ## Project Structure
 
@@ -18,3 +40,13 @@ Generates Android APKs that wrap a URL in a WebView.
 ## Smart Refresh
 
 `MainActivity` tracks `lastPauseTime` in `onPause()`. On `onResume()`, if the elapsed time exceeds `BuildConfig.REFRESH_TIMEOUT_MS`, it calls `window.__webviewRefresh()` via `evaluateJavascript()`. The web page opts in by defining this function. Default timeout is 5 minutes (300000ms).
+
+To opt in, define the function in your web app:
+
+```javascript
+window.__webviewRefresh = () => {
+  // Re-fetch data, update DOM, etc.
+};
+```
+
+If the function is not defined, nothing happens.
