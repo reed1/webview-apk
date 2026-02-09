@@ -1,0 +1,17 @@
+.gradle/
+build/
+app/build/
+local.properties
+*.apk
+.lock
+.venv/
+__pycache__/
+*.egg-info/
+
+# Generated from templates at build time
+build.gradle.kts
+app/build.gradle.kts
+settings.gradle.kts
+app/src/main/res/values/strings.xml
+app/src/main/res/values/themes.xml
+app/src/main/res/mipmap-*/
