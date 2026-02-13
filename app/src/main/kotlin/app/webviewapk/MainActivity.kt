@@ -40,7 +40,7 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        if (lastPauseTime > 0 && System.currentTimeMillis() - lastPauseTime > BuildConfig.REFRESH_TIMEOUT_MS) {
+        if (lastPauseTime > 0 && System.currentTimeMillis() - lastPauseTime > BuildConfig.REFRESH_TIMEOUT_SEC * 1000) {
             webView.evaluateJavascript("if (typeof window.__webviewRefresh === 'function') window.__webviewRefresh()", null)
         }
     }

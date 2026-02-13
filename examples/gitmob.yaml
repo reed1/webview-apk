@@ -2,6 +2,6 @@ name: GitMob
 id: com.gitmob.app
 url: "http://gitmob.loc"
 host: "gitmob.loc"
-icon: /home/reed/proj/gitmob/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+icon: ./icon.png
 theme_color: "#0a0a0a"
-refresh_timeout_ms: 300000
+refresh_timeout_sec: 10

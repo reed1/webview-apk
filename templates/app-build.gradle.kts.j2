@@ -16,7 +16,7 @@ android {
 
         buildConfigField("String", "APP_URL", "\"{{ url }}\"")
         buildConfigField("String", "APP_HOST", "\"{{ host }}\"")
-        buildConfigField("long", "REFRESH_TIMEOUT_MS", "{{ refresh_timeout_ms }}")
+        buildConfigField("long", "REFRESH_TIMEOUT_SEC", "{{ refresh_timeout_sec }}")
     }
 
     buildFeatures {

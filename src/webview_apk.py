@@ -54,12 +54,17 @@ def build(config_path: str) -> None:
 
     LOCK_FILE.touch()
     try:
-        config = yaml.safe_load(Path(config_path).read_text())
+        config_file = Path(config_path).resolve()
+        config = yaml.safe_load(config_file.read_text())
         config.setdefault("theme_color", "#0a0a0a")
-        config.setdefault("refresh_timeout_ms", 300000)
+        config.setdefault("refresh_timeout_sec", 10)
+
+        icon_path = Path(config["icon"])
+        if not icon_path.is_absolute():
+            icon_path = config_file.parent / icon_path
 
         render_templates(config)
-        generate_icons(config["icon"])
+        generate_icons(str(icon_path))
 
         android_home = os.environ.get("ANDROID_HOME", str(Path.home() / "Android" / "Sdk"))
         env = {**os.environ, "ANDROID_HOME": android_home}

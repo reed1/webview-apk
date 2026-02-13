@@ -22,7 +22,7 @@ See `examples/gitmob.yaml` for a full example.
 | `host` | yes | | Hostname used to keep navigation in-app; external links open in the browser |
 | `icon` | yes | | Path to a PNG icon (resized to all mipmap densities) |
 | `theme_color` | no | `#0a0a0a` | Status bar / theme color |
-| `refresh_timeout_ms` | no | `300000` | Milliseconds the app must be backgrounded before triggering a smart refresh on resume (see below) |
+| `refresh_timeout_sec` | no | `10` | Seconds the app must be backgrounded before triggering a smart refresh on resume (see below) |
 
 ## Project Structure
 
@@ -35,11 +35,11 @@ See `examples/gitmob.yaml` for a full example.
 
 1. User provides a YAML config with app name, URL, icon, etc.
 2. `webview_apk.py` renders templates with the config values, generates mipmap icons, then runs `gradlew assembleDebug`
-3. `BuildConfig` fields (APP_URL, APP_HOST, REFRESH_TIMEOUT_MS) are injected via the Gradle template and read at runtime in `MainActivity.kt`
+3. `BuildConfig` fields (APP_URL, APP_HOST, REFRESH_TIMEOUT_SEC) are injected via the Gradle template and read at runtime in `MainActivity.kt`
 
 ## Smart Refresh
 
-`MainActivity` tracks `lastPauseTime` in `onPause()`. On `onResume()`, if the elapsed time exceeds `BuildConfig.REFRESH_TIMEOUT_MS`, it calls `window.__webviewRefresh()` via `evaluateJavascript()`. The web page opts in by defining this function. Default timeout is 5 minutes (300000ms).
+`MainActivity` tracks `lastPauseTime` in `onPause()`. On `onResume()`, if the elapsed time exceeds `BuildConfig.REFRESH_TIMEOUT_SEC`, it calls `window.__webviewRefresh()` via `evaluateJavascript()`. The web page opts in by defining this function. Default timeout is 10 seconds.
 
 To opt in, define the function in your web app:
 
