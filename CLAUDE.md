@@ -5,7 +5,7 @@ Generates a lightweight Android APK that wraps a URL in a WebView.
 ## Usage
 
 ```
-webview-apk build <config.yaml>
+uv run webview-apk build <config.yaml>
 ```
 
 The built APK is written to `app/build/outputs/apk/debug/app-debug.apk`.
@@ -50,3 +50,7 @@ window.__webviewRefresh = () => {
 ```
 
 If the function is not defined, nothing happens.
+
+## WebView Detection
+
+`onPageStarted` injects `window.__webviewApk = true` into every page load. Web apps can check this flag at runtime to distinguish between WebView and regular browser contexts (e.g., to use Android intent URIs instead of `window.open` for external links).

@@ -3,6 +3,7 @@ package app.webviewapk
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.graphics.Bitmap
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -18,6 +19,9 @@ class MainActivity : Activity() {
         setContentView(webView)
 
         webView.webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
+                view.evaluateJavascript("window.__webviewApk = true", null)
+            }
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 if (request.url.host == BuildConfig.APP_HOST) return false
                 startActivity(Intent(Intent.ACTION_VIEW, request.url))
